@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import api from './Api'
 
 class Home extends Component{
 
@@ -9,6 +10,28 @@ class Home extends Component{
           genres: [],
           isLoading: false
         }
+    }
+
+    componentDidMount(){
+
+        this.setState({ isLoading: true})
+    
+        api.loadGenres()
+        .then((res)=>{
+          this.setState({
+            isLoading: false,
+            genres: res.data
+          })
+        })
+    }
+    
+      /*GERA UM LINK NOS GENEROS*/
+    renderGenreLink(genre){
+    
+        return(
+    
+          <span> &nbsp; <a href=''>{ genre }</a> &nbsp; </span>
+        )
     }
 
     render(){
@@ -32,7 +55,7 @@ class Home extends Component{
                     {
                         !this.state.isLoading &&
                         <div>
-                            Ver séries do gênero: {/*this.state.genres.map(this.renderGenreLink)*/}
+                            Ver séries do gênero: {this.state.genres.map(this.renderGenreLink)}
                         </div>
                     }
                 </section>

@@ -1,34 +1,13 @@
 import React, {Component} from 'react'
-import { BrowserRouter as Router, Route }from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link }from 'react-router-dom'
 
-import api from './Api'
+
 import Home from './components/Home'
+import NewSeries from './components/NewSeries'
+
+const About = () => <section className="intro-section"><h1>Sobre</h1></section>
 
 class App extends Component {
-
-  
-
-  componentDidMount(){
-
-    this.setState({ isLoading: true})
-
-    api.loadGenres()
-    .then((res)=>{
-      this.setState({
-        isLoading: false,
-        genres: res.data
-      })
-    })
-  }
-
-  /*GERA UM LINK NOS GENEROS*/
-  renderGenreLink(genre){
-
-    return(
-
-      <span> &nbsp; <a href=''>{ genre }</a> &nbsp; </span>
-    )
-  }
 
   render(){
     return (
@@ -46,16 +25,24 @@ class App extends Component {
               <div className="collapse navbar-collapse navbar-ex1-collapse">
                 <ul className="nav navbar-nav">
                   <li>
-                    <a href="">Menu item </a>
+                    <Link /*NAVEGA NOS LINKS*/ to='/'>Home</Link>
+                  </li>
+                  <li>
+                      <Link to='/new'>Nova Série</Link>
+                  </li>
+                  <li>
+                    <Link to='/about'>Sobre</Link>
                   </li>
                 </ul>
               </div>
     
             </div>
           </nav>
-
-          <Home />
-
+          
+          
+          <Route exact path='/' component={Home} /*ROTA HOME , RETORNA O COMPONENTE HOME*/ />
+          <Route exact path='/about' component={About} /* RETORNA O COMPONENTE ABOUT */ />
+          <Route exact path='/new' component={NewSeries}/>
         </div> 
       </Router>
     ) 
