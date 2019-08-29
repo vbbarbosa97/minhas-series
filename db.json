@@ -38,6 +38,13 @@
       "genre": "Comédia",
       "comments": "Muito Top",
       "id": 6
+    },
+    {
+      "name": "Prison Break",
+      "status": "watched",
+      "genre": "Ação",
+      "comments": "Melhor Série",
+      "id": 7
     }
   ],
   "genres": [
