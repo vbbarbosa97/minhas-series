@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import api from './Api'
+import {Link} from 'react-router-dom'
 
 const statuses = {
     'watched' : 'Assistido',
@@ -17,10 +18,20 @@ class Series extends Component {
             isLoading: false,
             series: [],
         }
+
+        //chama a função para poder usar o this fora do render
+        this.renderSeries = this.renderSeries.bind(this)
+        this.loadData = this.loadData.bind(this)
     }
 
     // depois que o componente montou na tela executa
     componentDidMount(){
+
+        //funcao que recarrega 
+        this.loadData()
+    }
+
+    loadData(){
 
         this.setState({ isLoading: true })
 
@@ -30,11 +41,19 @@ class Series extends Component {
                 series: res.data
             })
         })
+
+        
+    }
+
+    deleteSeries(id){
+       api.deleteSeries(id).then((res)=> this.loadData())
+
+       
     }
 
     renderSeries(series){
         return(
-            <div className="item  col-xs-4 col-lg-4">
+            <div key={series.id} className="item  col-xs-4 col-lg-4">
                 <div className="thumbnail">
                     <img className="group list-group-image" src="http://placehold.it/400x250/000/fff" alt="" />
                     <div className="caption">
@@ -46,8 +65,8 @@ class Series extends Component {
                         </div>
                         <div className="row">
                             <div className="col-xs-12 col-md-12">
-                                <a className="btn btn-success" href="">Gerenciar</a>
-                                <a className="btn btn-danger" onClick={ () => console.log('excluido',series.id)}>Excluir</a>
+                                <Link className="btn btn-success" to={'/series-edit/'+series.id} >Editar</Link>
+                                <a className="btn btn-danger" onClick={ () => this.deleteSeries(series.id)}>Excluir</a>
                             </div>
                         </div>
                     </div>
@@ -60,9 +79,23 @@ class Series extends Component {
         return(
            <section id="intro" className="intro-section">
                <h1>Series de {this.props.match.params.genre}</h1>
+               
+                {// aparece a mensagem enquanto carrega os dados
+                    this.state.isLoading &&
+                    <p>Carregando, aguarde...</p>
+                }
+
+                {
+                    this.state.series.length === 0 &&
+                    
+                    <div className='alert alert-info'>
+                        Nenhuma série cadastrada.
+                    </div>
+                }
+
 
                 <div id="series" className="row list-group">
-                    { 
+                    { //aparece os dados
                         !this.state.isLoading &&
                         this.state.series.map(this.renderSeries)
                     }

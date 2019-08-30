@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Link }from 'react-router-dom'
 import Home from './components/Home'
 import NewSeries from './components/NewSeries'
 import Series from './components/Series'
+import EditSeries from './components/EditSeries'
 
 const About = () => <section className="intro-section"><h1>Sobre</h1></section>
 
@@ -42,9 +43,11 @@ class App extends Component {
           
           
           <Route exact path='/' component={Home} /*ROTA HOME , RETORNA O COMPONENTE HOME*/ />
+          <Route path='/series-edit/:id' component={EditSeries} />
           <Route path='/series/:genre' component={Series} /*FILTRANDO A SERIE PELO GENERO */ />
           <Route exact path='/about' component={About} /* RETORNA O COMPONENTE ABOUT */ />
           <Route exact path='/new' component={NewSeries}/>
+
         </div> 
       </Router>
     ) 
